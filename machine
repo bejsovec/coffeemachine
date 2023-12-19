@@ -1,0 +1,163 @@
+package machine;
+import java.util.Objects;
+import java.util.Scanner;
+
+
+public class CoffeeMachine {
+    public static Scanner scanner = new Scanner(System.in);
+
+    public static int waterInMachine = 400;
+    public static int milkInMachine = 540;
+    public static int beansInMachine = 120;
+    public static int cupsInMachine = 9;
+    public static int cash = 550;
+
+
+    public static void main(String[] args) {
+                writeAction();
+    }
+    public static void writeAction(){
+        System.out.println("Write action (buy, fill, take, remaining, exit):");
+        String userAsk = scanner.next();
+
+        switch (userAsk){
+            case "buy":
+                buyCoffee();
+                System.out.println("\n");
+                writeAction();
+                break;
+            case "fill":
+                fillMachine();
+                System.out.println("\n");
+                writeAction();
+                break;
+            case "take":
+                takeMoney();
+                System.out.println("\n");
+                writeAction();
+                break;
+            case "remaining":
+                checkMachine();
+                System.out.println("\n");
+                writeAction();
+                break;
+            case "exit":
+                exit();
+                break;
+            default:
+                System.out.println("Uh oh spaghetti O");
+                writeAction();
+        }
+    }
+    public static void buyCoffee(){
+        System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:");
+        String userInput = scanner.next();
+
+        switch (userInput){
+            case "1":
+                if(waterInMachine >= 250 && beansInMachine >= 16 && cupsInMachine >= 1){
+                    makeEspresso();
+                    System.out.println("I have enough resources, making you a coffee!");
+                } else if (waterInMachine < 250 && beansInMachine >= 16 && cupsInMachine >= 1){
+                    System.out.println("Sorry, not enough water!");
+                } else if (waterInMachine >= 250 && beansInMachine < 16 && cupsInMachine >= 1){
+                    System.out.println("Sorry, not enough beans!");
+                } else if (waterInMachine >= 250 && beansInMachine >= 16 && cupsInMachine < 1){
+                    System.out.println("Sorry, not enough cups!");
+                } else {
+                    System.out.println("Something went wrong");
+                }
+                break;
+            case "2":
+                if(waterInMachine >= 350 && beansInMachine >= 20 && cupsInMachine >= 1 && milkInMachine >= 75){
+                    makeLatte();
+                    System.out.println("I have enough resources, making you a coffee!");
+                } else if (waterInMachine < 350 && beansInMachine >= 20 && cupsInMachine >= 1 && milkInMachine >= 75){
+                    System.out.println("Sorry, not enough water!");
+                } else if (waterInMachine >= 350 && beansInMachine < 20 && cupsInMachine >= 1 && milkInMachine >= 75){
+                    System.out.println("Sorry, not enough beans!");
+                } else if (waterInMachine >= 350 && beansInMachine >= 20 && cupsInMachine < 1 && milkInMachine >= 75){
+                    System.out.println("Sorry, not enough cups!");
+                } else if (waterInMachine >= 350 && beansInMachine >= 20 && cupsInMachine >= 1 && milkInMachine < 75){
+                    System.out.println("Sorry, not enough milk");
+                } else {
+                    System.out.println("Something went wrong");
+                }
+                break;
+            case "3":
+                if(waterInMachine >= 200 && beansInMachine >= 12 && cupsInMachine >= 1 && milkInMachine >= 100){
+                    makeCappuccino();
+                    System.out.println("I have enough resources, making you a coffee!");
+                } else if (waterInMachine < 200 && beansInMachine >= 12 && cupsInMachine >= 1 && milkInMachine >= 100){
+                    System.out.println("Sorry, not enough water!");
+                } else if (waterInMachine >= 200 && beansInMachine < 12 && cupsInMachine >= 1 && milkInMachine >= 100){
+                    System.out.println("Sorry, not enough beans!");
+                } else if (waterInMachine >= 200 && beansInMachine >= 12 && cupsInMachine < 1 && milkInMachine >= 100){
+                    System.out.println("Sorry, not enough cups!");
+                } else if (waterInMachine >= 200 && beansInMachine >= 12 && cupsInMachine >= 1 && milkInMachine < 100){
+                    System.out.println("Sorry, not enough milk");
+                } else {
+                    System.out.println("Something went wrong");
+                }
+                break;
+            default:
+                writeAction();
+        }
+    }
+
+    public static void makeEspresso(){
+        waterInMachine = waterInMachine - 250;
+        beansInMachine = beansInMachine - 16;
+        cupsInMachine -= 1;
+        cash = cash + 4;
+    }
+
+    public static void makeLatte(){
+        waterInMachine = waterInMachine - 350;
+        milkInMachine = milkInMachine - 75;
+        beansInMachine = beansInMachine - 20;
+        cupsInMachine -= 1;
+        cash = cash + 7;
+    }
+
+    public static void makeCappuccino(){
+        waterInMachine = waterInMachine - 200;
+        milkInMachine = milkInMachine - 100;
+        beansInMachine = beansInMachine - 12;
+        cupsInMachine -= 1;
+        cash = cash + 6;
+    }
+
+    public static void fillMachine(){
+        System.out.println("Write how many ml of water you want to add:");
+        int inputW = scanner.nextInt();
+        waterInMachine = waterInMachine + inputW;
+        System.out.println("Write how many ml of milk you want to add:");
+        int inputM = scanner.nextInt();
+        milkInMachine = milkInMachine + inputM;
+        System.out.println("Write how many ml of milk you want to add:");
+        int inputB = scanner.nextInt();
+        beansInMachine = beansInMachine + inputB;
+        System.out.println("Write how many ml of milk you want to add:");
+        int inputC = scanner.nextInt();
+        cupsInMachine = cupsInMachine + inputC;
+    }
+
+    public static void takeMoney(){
+        System.out.println("I gave you $" + cash);
+        cash = 0;
+    }
+
+    public static void checkMachine(){
+        System.out.println("\nThe coffee machine has:");
+        System.out.println(waterInMachine + " ml of water");
+        System.out.println(milkInMachine + " ml of milk");
+        System.out.println(beansInMachine + " g of coffee beans");
+        System.out.println(cupsInMachine + " disposable cups");
+        System.out.println("$" + cash + " of money");
+    }
+    public static void exit(){
+        System.exit (0);
+    }
+
+}
